@@ -21,7 +21,7 @@ function openWarningDiv(msage) {
 }
 function getTodayDateAndTime() {
     let dateAndTime = new Date().toLocaleString().split(",");
-    return (date = new Date().toString().split(" ").splice(1, 3).join(" ") + " " + dateAndTime[1]);
+    return "~" + new Date().toString().split(" ").splice(1, 3).join(" ") + " " + dateAndTime[1];
 }
 
 async function getAllUsers() {

@@ -12,14 +12,14 @@ function singleFriendInFriendListTemplate(friendName, onlineOffline) {
 
 function sendMessageTemplate(message) {
     return `<div class="messageSend my-4 box-border flex w-full justify-end pr-8 h-auto">
-                <p spellcheck="false" readonly="readonly" contenteditable="true" class="outline-none border-border-color w-auto max-w-[45%] rounded-3xl border bg-message-background-gray p-3 h-auto">${message}</p>
+                <p spellcheck="false" readonly="readonly" class="outline-none border-border-color w-auto max-w-[45%] rounded-3xl border bg-message-background-gray p-3 h-auto">${message}</p>
             </div>`;
 }
 
 function recieveMessageTemplate(message) {
     return `<div class="messageRecieve my-4 box-border flex w-full justify-start pl-8">
                 <img class="relative right-2 h-6 w-6 self-end rounded-full bg-gray-600" src="images/profile.png" alt="" />
-                <p spellcheck="false" readonly="readonly" contenteditable="true" class="outline-none border-border-color w-fit max-w-[45%] rounded-3xl border p-3">${message}</p>
+                <p spellcheck="false" readonly="readonly" class="outline-none border-border-color w-fit max-w-[45%] rounded-3xl border p-3">${message}</p>
             </div>`;
 }
 
