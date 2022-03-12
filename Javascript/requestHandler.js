@@ -33,7 +33,7 @@ async function getUserByNameRequest(userName) {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("Get User by Name 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 async function getAllUsersRequest() {
@@ -56,7 +56,7 @@ async function updateUserByNameRequest(userName, body) {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("Update User by Name Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 
@@ -72,7 +72,7 @@ async function updateFriendListRequest(userName, friendName) {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("Update userFriendList Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 async function gettingAllFriendsRequest(userName) {
@@ -83,7 +83,7 @@ async function gettingAllFriendsRequest(userName) {
         });
         return response;
     } catch (err) {
-        console.log("Get Friends Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("gettingAllFriendsRequest Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 
@@ -96,7 +96,7 @@ async function gettingOldMessagesRequest(roomName) {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("gettingOldMessagesRequest Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 // Update RoomName and messages
@@ -109,7 +109,7 @@ async function updateRoomNameAndMessagesRequest(roomName, messages = undefined) 
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("updateRoomNameAndMessagesRequest Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 
@@ -122,7 +122,7 @@ async function getAllOnlineOfflineRequest() {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("getAllOnlineOfflineRequest Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 
@@ -135,7 +135,7 @@ async function addOnlineOfflineRequest(userName) {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("addOnlineOfflineRequest Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
 
@@ -147,42 +147,6 @@ async function deleteOnlineOfflineRequest(userName) {
         });
         return response;
     } catch (err) {
-        console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
+        console.log("deleteOnlineOfflineRequest Error 🤦‍♀️🤦‍♀️ ", err);
     }
 }
-// async function updateChatsRequest(userName, friendName, chat) {
-//     try {
-//         let response = await axios({
-//             method: "patch",
-//             url: `https://instachatclone.herokuapp.com/api/v1/chat/${userName}/${friendName}`,
-//             data: {
-//                 messages: chat,
-//             },
-//         });
-//         return response;
-//     } catch (err) {
-//         console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
-//     }
-// }
-// async function gettingOldMessagesRequest(friendName, userId) {
-//     try {
-//         let response = await axios({
-//             method: "get",
-//             url: `https://instachatclone.herokuapp.com/api/v1/chat/${userId}/${friendName}`,
-//         });
-//         return response;
-//     } catch (err) {
-//         console.log("Get User Error 🤦‍♀️🤦‍♀️ ", err);
-//     }
-// }
-// async function rememberLoggingUser(userName) {
-//     try {
-//         let response = await axios({
-//             method: "get",
-//             url: `https://instachatclone.herokuapp.com/api/v1/user/${userName}`,
-//         });
-//         return response;
-//     } catch (err) {
-//         console.log("Remember Error 🤦‍♀️🤦‍♀️ ", err);
-//     }
-// }

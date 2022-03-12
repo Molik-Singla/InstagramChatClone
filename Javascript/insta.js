@@ -46,6 +46,7 @@ const warningText = document.querySelector(".warningText");
 const warningOkBtn = document.querySelector(".warningOkBtn");
 
 let firstCome = true;
+
 if (!localStorage.getItem("name")) {
     logInPage.classList.remove("hidden");
     logInPage.classList.add("fully-flex");

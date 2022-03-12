@@ -27,36 +27,40 @@ function emptyInputs() {
 }
 // login  ===>  switch screen  ===>  save to localStorage
 async function loggingUser(user) {
-    delete user.confirmPassword;
-    enableLoadingSpinner();
+    try {
+        delete user.confirmPassword;
+        enableLoadingSpinner();
 
-    let res = await loginRequest(user);
+        let res = await loginRequest(user);
 
-    if (res.data.status !== "success") {
-        openWarningDiv(res.data.data);
-        emptyInputs();
-        getUserFromInputValues();
-        disableLoadingSpinner();
-        return;
-    }
-    let dataObj = res.data;
-    if (dataObj.status === "success") {
-        setPulseAnimationOnSingleFriend(res.data.data.friendList.length);
-        disableLoadingSpinner();
-        // Switch To App
-        switchLoginToApp();
+        if (res.data.status !== "success") {
+            openWarningDiv(res.data.data);
+            emptyInputs();
+            getUserFromInputValues();
+            disableLoadingSpinner();
+            return;
+        }
+        let dataObj = res.data;
+        if (dataObj.status === "success") {
+            setPulseAnimationOnSingleFriend(res.data.data.friendList.length);
+            disableLoadingSpinner();
+            // Switch To App
+            switchLoginToApp();
 
-        // Save userInfo to LocalStorage
-        localStorage.setItem("name", dataObj.data.name);
-        localStorage.setItem("id", dataObj.data.id);
+            // Save userInfo to LocalStorage
+            localStorage.setItem("name", dataObj.data.name);
+            localStorage.setItem("id", dataObj.data.id);
 
-        setUserNameDiv(localStorage.getItem("name"));
+            setUserNameDiv(localStorage.getItem("name"));
 
-        // SWicth to Online in Database
-        await addOnlineOfflineRequest(localStorage.getItem("name"));
+            // SWicth to Online in Database
+            await addOnlineOfflineRequest(localStorage.getItem("name"));
 
-        // Update User FriendList
-        updateUserFriendList(dataObj.data.name);
+            // Update User FriendList
+            updateUserFriendList(dataObj.data.name);
+        }
+    } catch (err) {
+        console.log(`Error in loggingUser() : ${err}`);
     }
 }
 
@@ -67,31 +71,35 @@ function resetForSigningUp() {
     disableLoadingSpinner();
 }
 async function signingUser(user) {
-    enableLoadingSpinner();
-    if (!inputDatavalidator(user)) {
-        resetForSigningUp();
-        return;
-    }
-    let res = await sigupRequest(user);
+    try {
+        enableLoadingSpinner();
+        if (!inputDatavalidator(user)) {
+            resetForSigningUp();
+            return;
+        }
+        let res = await sigupRequest(user);
 
-    if (res.data.status !== "success") {
-        openWarningDiv(res.data.message);
-        resetForSigningUp();
-        return;
-    }
-    let dataObj = res.data;
-    if (dataObj.status === "success") {
-        disableLoadingSpinner();
+        if (res.data.status !== "success") {
+            openWarningDiv(res.data.message);
+            resetForSigningUp();
+            return;
+        }
+        let dataObj = res.data;
+        if (dataObj.status === "success") {
+            disableLoadingSpinner();
 
-        switchLoginToApp();
+            switchLoginToApp();
 
-        localStorage.setItem("name", dataObj.data.name);
-        localStorage.setItem("id", dataObj.data.id);
+            localStorage.setItem("name", dataObj.data.name);
+            localStorage.setItem("id", dataObj.data.id);
 
-        setUserNameDiv(localStorage.getItem("name"));
+            setUserNameDiv(localStorage.getItem("name"));
 
-        // SWicth to Online in Database
-        await addOnlineOfflineRequest(localStorage.getItem("name"));
+            // SWicth to Online in Database
+            await addOnlineOfflineRequest(localStorage.getItem("name"));
+        }
+    } catch (err) {
+        console.log(`Error in signingUser() : ${err}`);
     }
 }
 

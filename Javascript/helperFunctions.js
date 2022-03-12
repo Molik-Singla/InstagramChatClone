@@ -28,11 +28,15 @@ function getTodayDateAndTime() {
 }
 
 async function getAllUsers() {
-    const res = await getAllUsersRequest();
-    if (res.data.status === "success") {
-        const arr = Array.from(res.data.data[0]);
-        let allUserName = arr.map(singleObj => singleObj.name);
-        return allUserName;
+    try {
+        const res = await getAllUsersRequest();
+        if (res.data.status === "success") {
+            const arr = Array.from(res.data.data[0]);
+            let allUserName = arr.map(singleObj => singleObj.name);
+            return allUserName;
+        }
+    } catch (err) {
+        console.log(`Error in getAllUsers() : ${err}`);
     }
 }
 
@@ -73,33 +77,42 @@ function deletePulseAnimationOnSingleFriend() {
 }
 
 async function updateOnlineOfflineStatus() {
-    let onlineUsers = await getAllOnlineOfflineRequest();
-    onlineUsers = onlineUsers?.data?.data;
+    try {
+        let onlineUsers = await getAllOnlineOfflineRequest();
+        onlineUsers = onlineUsers?.data?.data;
 
-    let allFriends = friendList.children;
+        let allFriends = friendList.children;
 
-    if (onlineUsers?.length >= 1 && nameInFriendList?.length >= 1) {
-        for (let i = 0; i < allFriends.length; i++) {
-            if (allFriends && onlineUsers.includes(nameInFriendList[i])) allFriends[i].querySelector(".friendSeen").textContent = "Online";
-            else if (allFriends) allFriends[i].querySelector(".friendSeen").textContent = "Offline";
+        if (onlineUsers?.length >= 1 && nameInFriendList?.length >= 1) {
+            for (let i = 0; i < allFriends.length; i++) {
+                if (allFriends && onlineUsers.includes(nameInFriendList[i]))
+                    allFriends[i].querySelector(".friendSeen").textContent = "Online";
+                else if (allFriends) allFriends[i].querySelector(".friendSeen").textContent = "Offline";
+            }
         }
+    } catch (err) {
+        console.log(`Error in updateOnlineOfflineStatus() : ${err}`);
     }
 }
 // On login or on Reload
 async function updateUserFriendList(userName) {
-    let friendsRes = await gettingAllFriendsRequest(userName);
-    let onlineUsers = await getAllOnlineOfflineRequest();
-    let allFriends = friendsRes.data.data;
+    try {
+        let friendsRes = await gettingAllFriendsRequest(userName);
+        let onlineUsers = await getAllOnlineOfflineRequest();
+        let allFriends = friendsRes.data.data;
 
-    if (friendsRes?.data?.status === "success") {
-        if (allFriends) {
-            deletePulseAnimationOnSingleFriend();
-            allFriends.forEach(frnd => {
-                if (onlineUsers?.data?.data?.includes(frnd)) addFriendToFriendList(frnd, "Online");
-                else addFriendToFriendList(frnd, "Offline");
-                nameInFriendList.push(frnd);
-            });
+        if (friendsRes?.data?.status === "success") {
+            if (allFriends) {
+                deletePulseAnimationOnSingleFriend();
+                allFriends.forEach(frnd => {
+                    if (onlineUsers?.data?.data?.includes(frnd)) addFriendToFriendList(frnd, "Online");
+                    else addFriendToFriendList(frnd, "Offline");
+                    nameInFriendList.push(frnd);
+                });
+            }
         }
+    } catch (err) {
+        console.log(`Error in updateUserFriendList() : ${err}`);
     }
 }
 

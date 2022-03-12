@@ -35,51 +35,71 @@ messageSendBtn.addEventListener("click", function () {
 });
 
 socket.on("cutOffOnlineConnection", async () => {
-    await deleteOnlineOfflineRequest(localStorage.getItem("name"));
+    try {
+        await deleteOnlineOfflineRequest(localStorage.getItem("name"));
+    } catch (err) {
+        console.log(`Error in cutOffOnlineConnection socket Event : ${err}`);
+    }
 });
 socket.on("restart", () => {
     setTimeout(async () => {
-        await updateOnlineOfflineStatus(localStorage.getItem("name"));
+        try {
+            await updateOnlineOfflineStatus(localStorage.getItem("name"));
+        } catch (err) {
+            console.log(`Error in restart socket Event : ${err}`);
+        }
     }, 2000);
 });
 socket.on("updateStatusToOthers", async () => {
     setTimeout(async () => {
-        await updateOnlineOfflineStatus(localStorage.getItem("name"));
+        try {
+            await updateOnlineOfflineStatus(localStorage.getItem("name"));
+        } catch (err) {
+            console.log(`Error in updateStatusToOthers socket Event : ${err}`);
+        }
     }, 1000);
 });
 
 // window ----------------------------------
 window.addEventListener("load", async function () {
-    if (localStorage.getItem("name")) {
-        console.log("IN LOAD");
-        firstCome = true;
-        enableInstagramLoadingAnimation();
-        await addOnlineOfflineRequest(localStorage.getItem("name"));
+    try {
+        if (localStorage.getItem("name")) {
+            console.log("IN LOAD");
+            firstCome = true;
+            enableInstagramLoadingAnimation();
+            await addOnlineOfflineRequest(localStorage.getItem("name"));
 
-        let userName = localStorage.getItem("name");
-        let userId = localStorage.getItem("id");
+            let userName = localStorage.getItem("name");
+            let userId = localStorage.getItem("id");
 
-        let res = await getUserByNameRequest(userName);
+            let res = await getUserByNameRequest(userName);
 
-        console.log(res);
-        if (res?.data?.status === "success") {
-            let dbName = res.data.data.user.name;
-            let dbId = res.data.data.user._id;
-            if (userName === dbName && userId === dbId) {
-                console.log("Welcome to My Instagram Chat Clone 🎉");
-                switchLoginToApp();
+            console.log(res);
+            if (res?.data?.status === "success") {
+                let dbName = res.data.data.user.name;
+                let dbId = res.data.data.user._id;
+                if (userName === dbName && userId === dbId) {
+                    console.log("Welcome to My Instagram Chat Clone 🎉");
+                    switchLoginToApp();
+                }
             }
+            // 2) 👉 Update the user friendList
+            setPulseAnimationOnSingleFriend(res.data.data.user.friendList.length);
+            await updateUserFriendList(userName);
+            setUserNameDiv(localStorage.getItem("name"));
         }
-        // 2) 👉 Update the user friendList
-        setPulseAnimationOnSingleFriend(res.data.data.user.friendList.length);
-        await updateUserFriendList(userName);
-        setUserNameDiv(localStorage.getItem("name"));
+    } catch (err) {
+        console.log(`Error in load Event : ${err}`);
     }
 });
 window.addEventListener("beforeunload", async function () {
-    for (let i = 0; i < 100000; ) {
-        if (i === 0) await deleteOnlineOfflineRequest(localStorage.getItem("name"));
-        i++;
+    try {
+        for (let i = 0; i < 100000; ) {
+            if (i === 0) await deleteOnlineOfflineRequest(localStorage.getItem("name"));
+            i++;
+        }
+    } catch (err) {
+        console.log(`Error in beforeunload Event : ${err}`);
     }
 });
 

@@ -14,53 +14,65 @@ function setRecieveMessage(message) {
 }
 
 async function gettingOldMessages(roomName) {
-    statingYourMessagesDiv.classList.remove("flex");
-    statingYourMessagesDiv.classList.add("hidden");
+    try {
+        statingYourMessagesDiv.classList.remove("flex");
+        statingYourMessagesDiv.classList.add("hidden");
 
-    messagesBoxDiv.classList.remove("hidden");
-    messagesBoxDiv.classList.add("flex", "flex-col");
+        messagesBoxDiv.classList.remove("hidden");
+        messagesBoxDiv.classList.add("flex", "flex-col");
 
-    let res = await gettingOldMessagesRequest(roomName);
+        let res = await gettingOldMessagesRequest(roomName);
 
-    if (res?.data?.status === "success") {
-        messagesSendAndRecieveDiv.innerHTML = "";
-        let oldMessages = res.data?.data;
-        console.log(oldMessages);
-        let ownNameletter = localStorage.getItem("name")[0];
-        if (oldMessages) {
-            for (let msage of oldMessages) {
-                if (msage[0] === ownNameletter) setSendMessage(msage.slice(2));
-                else if (msage[0] === "~") setMessagesTime(msage.slice(1));
-                else setRecieveMessage(msage.slice(2));
+        if (res?.data?.status === "success") {
+            messagesSendAndRecieveDiv.innerHTML = "";
+            let oldMessages = res.data?.data;
+            console.log(oldMessages);
+            let ownNameletter = localStorage.getItem("name")[0];
+            if (oldMessages) {
+                for (let msage of oldMessages) {
+                    if (msage[0] === ownNameletter) setSendMessage(msage.slice(2));
+                    else if (msage[0] === "~") setMessagesTime(msage.slice(1));
+                    else setRecieveMessage(msage.slice(2));
+                }
             }
         }
+    } catch (err) {
+        console.log(`Error in gettingOldMessages() : ${err}`);
     }
 }
 
 async function openChatWithFriendAndSaveOnClose(roomName) {
-    messagesArray = [];
-    let friendName = roomName.split("-")[1];
-    changeMessagesNavInfo(friendName);
+    try {
+        messagesArray = [];
+        let friendName = roomName.split("-")[1];
+        changeMessagesNavInfo(friendName);
 
-    // Fetching old messages
-    await gettingOldMessages(roomName);
+        // Fetching old messages
+        await gettingOldMessages(roomName);
 
-    let fetchRoomName = await updateRoomNameAndMessagesRequest(roomName);
-    fetchRoomName = fetchRoomName.data.data;
+        let fetchRoomName = await updateRoomNameAndMessagesRequest(roomName);
+        fetchRoomName = fetchRoomName.data.data;
 
-    // console.log(fetchRoomName);
+        // console.log(fetchRoomName);
 
-    realRoomName = [];
-    realRoomName.push(fetchRoomName);
-    socket.emit("join", fetchRoomName);
+        realRoomName = [];
+        realRoomName.push(fetchRoomName);
+        socket.emit("join", fetchRoomName);
+    } catch (err) {
+        console.log(`Error in openChatWithFriendAndSaveOnClose() : ${err}`);
+    }
 }
 
 friendList.addEventListener("click", async function (evt) {
-    if (evt.target.closest(".singleFriend")) {
-        // Set friend name on nav
-        let friendName = evt.target.closest(".singleFriend").querySelector(".friendName").textContent.trim();
+    try {
+        if (evt.target.closest(".singleFriend")) {
+            // Set friend name on nav
+            let friendName = evt.target.closest(".singleFriend").querySelector(".friendName").textContent.trim();
 
-        let roomName = `${localStorage.getItem("name")}-${friendName}`;
-        await openChatWithFriendAndSaveOnClose(roomName);
+            let roomName = `${localStorage.getItem("name")}-${friendName}`;
+            await openChatWithFriendAndSaveOnClose(roomName);
+        }
+    } catch (err) {
+        console.log(`Error in friendList Click Event : ${err}`);
     }
 });
