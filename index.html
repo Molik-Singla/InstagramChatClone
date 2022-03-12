@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" class="sm:text-sm">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- <link rel="stylesheet" href="style.css" /> -->
+        <link rel="stylesheet" href="output.css" />
+        <!-- Socket.io -->
+        <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script defer src="./Javascript/requestHandler.js"></script>
+        <script defer src="./Javascript/insta.js"></script>
+        <script defer src="./Javascript/htmlTemplates.js"></script>
+        <script defer src="./Javascript/helperFunctions.js"></script>
+        <script defer src="./Javascript/extraFunctionality.js"></script>
+
+        <script defer src="./Javascript/app.js"></script>
+
+        <script defer src="./Javascript/authentication.js"></script>
+
+        <script defer src="./Javascript/searchBarHandle.js"></script>
+        <script defer src="./Javascript/messagesAndFriendsHandler.js"></script>
+    </head>
+    <body>
+        <!-- hidden -->
+        <header class="hidden">
+            <nav class="border-border-color flex h-14 w-screen items-center border-b bg-white">
+                <div class="logo fully-flex h-full w-2/5">
+                    <img src="images/logo.png" alt="Instagram" />
+                </div>
+
+                <div
+                    class="searchBarDiv relative box-border flex h-9 w-1/5 min-w-[12rem] flex-row items-center rounded-lg bg-message-background-gray"
+                >
+                    <svg
+                        aria-label="Search"
+                        class="_8-yf5 ml-4"
+                        color="#8e8e8e"
+                        fill="#8e8e8e"
+                        height="16"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="16"
+                    >
+                        <path
+                            d="M19 10.5A8.5 8.5 0 1110.5 2a8.5 8.5 0 018.5 8.5z"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                        ></path>
+                        <line
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            x1="16.511"
+                            x2="22"
+                            y1="16.511"
+                            y2="22"
+                        ></line>
+                    </svg>
+
+                    <!-- w-56 -->
+                    <input
+                        class="searchInput ml-2 w-4/5 bg-message-background-gray font-thin outline-none placeholder:text-gray-500 md:w-3/4"
+                        type="search"
+                        name="search"
+                        id="searchBar"
+                        autocomplete="off"
+                        placeholder="Search"
+                    />
+
+                    <!--  h-72 -->
+                    <div
+                        class="searchresultDiv absolute top-11 z-10 box-border h-auto w-full overflow-y-auto border bg-white shadow-md shadow-gray-200"
+                    ></div>
+                </div>
+                <div class="profileDiv fully-flex h-full w-2/5">
+                    <svg
+                        aria-label="Messenger"
+                        color="#262626"
+                        fill="#262626"
+                        height="24"
+                        role="img"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        class="hover:cursor-pointer"
+                    >
+                        <path
+                            d="M12.003 1.131a10.487 10.487 0 00-10.87 10.57 10.194 10.194 0 003.412 7.771l.054 1.78a1.67 1.67 0 002.342 1.476l1.935-.872a11.767 11.767 0 003.127.416 10.488 10.488 0 0010.87-10.57 10.487 10.487 0 00-10.87-10.57zm5.786 9.001l-2.566 3.983a1.577 1.577 0 01-2.278.42l-2.452-1.84a.63.63 0 00-.759.002l-2.556 2.049a.659.659 0 01-.96-.874L8.783 9.89a1.576 1.576 0 012.277-.42l2.453 1.84a.63.63 0 00.758-.003l2.556-2.05a.659.659 0 01.961.874z"
+                        ></path>
+                    </svg>
+                    <!-- 
+                    <div class="userProfile fully-flex relative w-14">
+                        <img class="w-6" src="images/profile.png" alt="" />
+                        <div class="profileOptions absolute top-10 w-20 border bg-white shadow-md shadow-gray-200">
+                            <button class="w-full">Logout</button>
+                        </div>
+                    </div> -->
+                </div>
+            </nav>
+        </header>
+
+        <!--   fully-flex -->
+        <main class="hidden h-[calc(100vh-3.5rem)] w-screen bg-primary-grey font-primary">
+            <!-- chatDiv -->
+            <div class="chatDiv border-border-color flex h-[94%] w-[69%] border bg-white sm:w-[94%]">
+                <!-- allFriendList -->
+                <div class="allFriendList h-full w-[37%]">
+                    <div
+                        class="userNameNav border-border-color fully-flex mb-2 h-16 w-full border-b font-primary text-base font-semibold"
+                    ></div>
+
+                    <div class="friendListNames h-[calc(100%-4rem)] w-full overflow-y-auto">
+                        <!-- ANIMATION -->
+                        <div class="hidden h-[68px] w-full max-w-sm">
+                            <div class="flex h-full animate-pulse">
+                                <div class="fully-flex h-full w-1/4 lg:w-1/3">
+                                    <!-- <div class="w-[52px] rounded-full bg-slate-900"></div> -->
+                                    <div class="h-[52px] w-[52px] rounded-full bg-slate-200 lg:w-10"></div>
+                                </div>
+                                <div class="flex h-full flex-1 flex-col justify-center space-y-3 py-1">
+                                    <div class="h-3 w-5/6 rounded bg-slate-200"></div>
+                                    <div class="h-3 w-5/6 rounded bg-slate-200"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="yourMessages border-border-color flex h-full w-[calc(100%-37%)] flex-col items-center justify-center border-l-[1px] text-sm text-gray-500"
+                >
+                    <img class="w-1/4" src="images/messagingLogo.png" alt="" />
+                    <p class="mb-2 font-primary text-2xl font-extralight text-black">Your Messages</p>
+                    <p class="mx-3 text-center font-primary font-normal text-gray-400">
+                        Send private photos and messages to a friend or group.
+                    </p>
+                </div>
+                <div class="messagesBoxDiv border-border-color hidden h-full w-[calc(100%-37%)] border-l-[1px]">
+                    <div class="messageBoxNav border-border-color h-16 w-full border-b">
+                        <div class="insideMessageBoxNav flex h-full w-fit items-center justify-center px-9">
+                            <img class="w-6 rounded-full bg-gray-600" src="images/profile.png" alt="Parry" />
+                            <span class="messageBoxDivNavName ml-3 text-base font-semibold"></span>
+                        </div>
+                    </div>
+
+                    <div class="messagesSendAndRecieveDiv h-[calc(100%-4rem-5rem)] w-full overflow-y-auto text-sm"></div>
+
+                    <div class="messageSenderDiv fully-flex h-20 w-full bg-white">
+                        <div class="inputMessageToSend border-border-color box-border flex h-10 w-[94%] items-center rounded-3xl border">
+                            <textarea
+                                class="ml-6 w-[86%] resize-none text-sm outline-none"
+                                name="messageSend"
+                                id="messageSendInput"
+                                cols="30"
+                                rows="1"
+                                placeholder="Message..."
+                                style="overflow: hidden"
+                            ></textarea>
+                            <button class="messageSendBtn border-0 bg-white text-sm font-semibold text-btn-color">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- hidden fully-flex -->
+        <div class="logSignPage hidden h-screen w-screen flex-col bg-primary-grey">
+            <div class="flex h-96 w-[350px] flex-col items-center border border-dark-border-color bg-white">
+                <img class="mt-4 mb-4" src="images/logo1.png" alt="" />
+
+                <form action="#" class="fully-flex flex-col font-primary text-sm">
+                    <input
+                        class="my-1 h-9 w-[16.8rem] rounded border border-dark-border-color bg-primary-grey pl-2 outline-none placeholder:text-xs"
+                        type="email"
+                        name="email"
+                        id="inputEmail"
+                        placeholder="Email"
+                        autocomplete="off"
+                    />
+                    <input
+                        class="my-1 h-9 w-[16.8rem] rounded border border-dark-border-color bg-primary-grey pl-2 outline-none placeholder:text-xs"
+                        type="text"
+                        name="name"
+                        id="inputName"
+                        placeholder="Name"
+                        autocomplete="off"
+                    />
+                    <div
+                        class="my-1 flex h-9 w-[16.8rem] flex-row justify-between rounded border border-dark-border-color bg-primary-grey pl-2"
+                    >
+                        <input
+                            class="bg-primary-grey outline-none placeholder:text-xs"
+                            type="password"
+                            name="password"
+                            id="inputPassword"
+                            placeholder="Password"
+                            autocomplete="off"
+                            autofill="off"
+                        />
+                        <button class="showPasswordBtn mr-3 hidden font-semibold text-black">Show</button>
+                    </div>
+
+                    <input
+                        class="my-1 h-9 w-[16.8rem] rounded border border-dark-border-color bg-primary-grey pl-2 outline-none placeholder:text-xs"
+                        type="password"
+                        name="confirmPassword"
+                        id="inputConfirmPassword"
+                        placeholder="Confirm password"
+                    />
+
+                    <button class="submitBtn relative my-4 h-8 w-64 rounded bg-btn-color font-semibold text-white" type="submit">
+                        <span class="insideSubmitBtn">Signup</span>
+
+                        <div class="loadingSpinner hidden w-full">
+                            <div
+                                style="border-top-color: transparent"
+                                class="h-6 w-6 animate-spin rounded-full border-4 border-solid border-white"
+                            ></div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+
+            <div class="fully-flex my-4 h-14 w-[350px] items-center border border-dark-border-color bg-white">
+                <p>
+                    <span>Already have an account?</span>
+                    <button class="doLogin font-semibold text-btn-color">Login</button>
+                    <button class="doSignup hidden font-semibold text-btn-color">Signup</button>
+                </p>
+            </div>
+        </div>
+
+        <div class="instagramLoadingAnimation hidden h-screen w-screen animate-pulse space-x-2">
+            <!-- <div class="h-8 w-8 rounded-full bg-blue-400"></div>
+            <div class="h-8 w-8 rounded-full bg-blue-400"></div>
+            <div class="h-8 w-8 rounded-full bg-blue-400"></div> -->
+            <img class="h-16 w-16 rounded-full" src="images/opacityLogo.png" alt="" />
+        </div>
+
+        <div class="warningDiv absolute top-0 hidden h-screen w-screen bg-[#0000006e]">
+            <div class="flex justify-center">
+                <div class="block max-w-sm rounded-lg bg-white p-5 shadow-lg">
+                    <p class="warningText mb-4 text-base text-gray-700">
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p>
+                    <button
+                        type="button"
+                        class="warningOkBtn inline-block rounded bg-blue-600 px-6 py-2 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+                    >
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------- -->
+    </body>
+</html>
+<!-- <div
+                            class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-red-500 lg:bg-btn-color"
+                        >
+                            <div class="friendProfilePic fully-flex h-full w-1/4 lg:w-1/3">
+                                <img class="w-[52px] rounded-full bg-gray-600 lg:w-10" src="images/profile.png" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center lg:w-2/3">
+                                <p class="friendName text-sm">${friendName}</p>
+                                <p class="friendSeen text-sm text-gray-400">${onlineOffline}</p>
+                            </div>
+                        </div> -->
+<!--
+                        <div class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-hover-grey">
+                            <div class="friendProfilePic fully-flex h-full w-1/4">
+                                <img class="w-[52px] rounded-full bg-gray-600" src="images/aastha.jpg" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center">
+                                <p class="friendName text-sm">Aastha Singla</p>
+                                <p class="friendSeen text-sm text-gray-400">today</p>
+                            </div>
+                        </div>
+                        <div class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-hover-grey">
+                            <div class="friendProfilePic fully-flex h-full w-1/4">
+                                <img class="w-[52px] rounded-full bg-gray-600" src="images/parry.jpg" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center">
+                                <p class="friendName text-sm">Parry</p>
+                                <p class="friendSeen text-sm text-gray-400">today</p>
+                            </div>
+                        </div>
+                        <div class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-hover-grey">
+                            <div class="friendProfilePic fully-flex h-full w-1/4">
+                                <img class="w-[52px] rounded-full bg-gray-600" src="images/abhi.jpg" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center">
+                                <p class="friendName text-sm">Taneja Abhi</p>
+                                <p class="friendSeen text-sm text-gray-400">today</p>
+                            </div>
+                        </div>
+                        <div class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-hover-grey">
+                            <div class="friendProfilePic fully-flex h-full w-1/4">
+                                <img class="w-[52px] rounded-full bg-gray-600" src="images/profile.png" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center">
+                                <p class="friendName text-sm">ketan Goyal</p>
+                                <p class="friendSeen text-sm text-gray-400">yesterday</p>
+                            </div>
+                        </div>
+                        <div class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-hover-grey">
+                            <div class="friendProfilePic fully-flex h-full w-1/4">
+                                <img class="w-[52px] rounded-full bg-gray-600" src="images/aastha.jpg" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center">
+                                <p class="friendName text-sm">Aastha Singla</p>
+                                <p class="friendSeen text-sm text-gray-400">today</p>
+                            </div>
+                        </div>
+                        <div class="singleFriend flex h-[68px] w-full transition ease-linear hover:cursor-pointer hover:bg-hover-grey">
+                            <div class="friendProfilePic fully-flex h-full w-1/4">
+                                <img class="w-[52px] rounded-full bg-gray-600" src="images/parry.jpg" alt="Pic" />
+                            </div>
+                            <div class="friendNameAndSeen flex h-full w-3/4 flex-col justify-center">
+                                <p class="friendName text-sm">Parry</p>
+                                <p class="friendSeen text-sm text-gray-400">today</p>
+                            </div>
+                        </div> -->
+<!-- <div class="searchResult flex h-14 w-full bg-blue-300 hover:cursor-pointer">
+                            <div class="profileImage fully-flex h-full w-1/4">
+                                <img class="w-10 rounded-full bg-gray-600" src="images/profile.png" alt="Pic" />
+                            </div>
+                            <div class="userName flex h-full w-3/4 items-center font-primary text-sm font-semibold">Parry</div>
+                        </div> -->
+<!-- No result found  -->
+<!-- <div class="noResultFound hidden h-14 text-sm font-semibold text-gray-500">No Result Found</div> -->
+<!-- <div class="messageSend my-4 box-border flex w-full justify-end pr-8">
+                            <p class="border-border-color w-fit max-w-[45%] rounded-3xl border bg-message-background-gray p-3">
+                                ${message}
+                            </p>
+                        </div> -->
+<!-- <div class="messageRecieve my-4 box-border flex w-full justify-start pl-8">
+                            <img class="relative right-2 h-6 w-6 self-end rounded-full bg-gray-600" src="images/profile.png" alt="Parry" />
+                            <p class="border-border-color w-fit max-w-[45%] rounded-3xl border p-3">${message}</p>
+                        </div> -->
+<!-- <div class="faltu bg-emerald-600 hover:bg-violet-500"></div> -->
+<!-- <div class="searchResult flex h-14 w-full hover:cursor-pointer hover:bg-hover-grey">
+    <div class="profileImage fully-flex h-full w-1/4 md:w-2/5">
+        <img class="w-10 rounded-full bg-gray-600" src="images/profile.png" alt="Pic" />
+    </div>
+    <div class="userName flex h-full w-3/4 items-center font-primary text-sm font-semibold md:w-3/5">${result}</div>
+</div> -->
+<!-- 
+<div class="my-5"></div>
+<div class="messageTime fully-flex my-5 w-full text-center text-xs text-gray-400">${time}</div> -->
