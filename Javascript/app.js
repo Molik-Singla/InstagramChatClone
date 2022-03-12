@@ -36,7 +36,10 @@ messageSendBtn.addEventListener("click", function () {
 
 socket.on("cutOffOnlineConnection", async () => {
     try {
-        await deleteOnlineOfflineRequest(localStorage.getItem("name"));
+        for (let i = 0; i < 100000; ) {
+            if (i === 0) await deleteOnlineOfflineRequest(localStorage.getItem("name"));
+            i++;
+        }
     } catch (err) {
         console.log(`Error in cutOffOnlineConnection socket Event : ${err}`);
     }
