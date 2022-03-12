@@ -20,11 +20,8 @@ function openWarningDiv(msage) {
     warningDiv.classList.add("fully-flex");
 }
 function getTodayDateAndTime() {
-    let months = "January_Febarury_March_April_May_June_July_August_September_October_Novmember_December".split("_");
     let dateAndTime = new Date().toLocaleString().split(",");
-    return `~${months[parseInt(dateAndTime[0].split("/")[0]) - 1]} ${dateAndTime[0].split("/")[1]}, ${dateAndTime[0].split("/")[2]} ${
-        dateAndTime[1]
-    }`;
+    return (date = new Date().toString().split(" ").splice(1, 3).join(" ") + " " + dateAndTime[1]);
 }
 
 async function getAllUsers() {

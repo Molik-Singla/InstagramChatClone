@@ -14,6 +14,7 @@ socket.on("recieve-message", message => {
 messageSendBtn.addEventListener("click", function () {
     if (firstCome) {
         let currentTime = getTodayDateAndTime();
+        console.log(currentTime);
         setMessagesTime(currentTime.slice(1));
         updateRoomNameAndMessagesRequest(realRoomName[0], [currentTime]).then(res => console.log(res));
         firstCome = false;
